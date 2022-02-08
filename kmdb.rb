@@ -69,9 +69,191 @@
 # Delete existing data, so you'll start fresh each time this script is run.
 # Use `Model.destroy_all` code.
 # TODO!
-
+Movie.destroy_all
+Person.destroy_all
+Role.destroy_all
 # Generate models and tables, according to the domain model
 # TODO!
+#-- Person
+values = { name: "Christopher Nolan" }
+people1 = Person.new(values)
+people1.save
+
+values = { name: "Christian Bale" }
+people2 = Person.new(values)
+people2.save
+
+values = { name: "Michael Caine" }
+people3 = Person.new(values)
+people3.save
+
+values = { name: "Liam Neeson" }
+people4 = Person.new(values)
+people4.save
+
+values = { name: "Katie Holmes" }
+people5 = Person.new(values)
+people5.save
+
+values = { name: "Gary Oldman" }
+people6 = Person.new(values)
+people6.save
+
+values = { name: "Heath Ledger" }
+people7 = Person.new(values)
+people7.save
+
+values = { name: "Aaron Eckhart" }
+people8 = Person.new(values)
+people8.save
+
+values = { name: "Maggie Gyllenhaal" }
+people9 = Person.new(values)
+people9.save
+
+values = { name: "Tom Hardy" }
+people10 = Person.new(values)
+people10.save
+
+values = { name: "Joseph Gordon-Levitt" }
+people11 = Person.new(values)
+people11.save
+
+values = { name: "Anne Hathaway" }
+people12 = Person.new(values)
+people12.save
+
+
+#-- Movie
+values = { title: "Batman Begins", 
+            year_released: 2005, 
+            rated: "PG-13", 
+            person_id: people1.id 
+        }
+movie1 = Movie.new(values)
+movie1.save
+
+values = { title: "The Dark Knight", 
+            year_released: 2008, 
+            rated: "PG-13", 
+            person_id: people1.id  
+        }
+movie2 = Movie.new(values)
+movie2.save
+
+values = { title: "The Dark Knight Rises",
+             year_released: 2012, 
+             rated: "PG-13", 
+             person_id: people1.id 
+             }
+movie3 = Movie.new(values)
+movie3.save
+
+#-- Role
+values = { movie_id: movie1.id, 
+            person_id: people2.id, 
+            character_name: "Bruce Wayne" 
+        }
+role1 = Role.new(values)
+role1.save
+
+values = { movie_id: movie1.id,
+             person_id: people3.id, 
+             character_name: "Alfred" 
+            }
+role2 = Role.new(values)
+role2.save
+
+values = { movie_id: movie1.id, 
+            person_id: people4.id, 
+            character_name: "Ra's Al Ghul"
+         }
+role3 = Role.new(values)
+role3.save
+
+values = { movie_id: movie1.id, 
+            person_id: people5.id, 
+            character_name: "Rachel Dawes" 
+        }
+role4 = Role.new(values)
+role4.save
+
+values = { movie_id: movie1.id,
+             person_id: people6.id,
+              character_name: "Commissioner Gordon" 
+            }
+role5 = Role.new(values)
+role5.save
+
+values = { movie_id: movie2.id, 
+            person_id: people2.id, 
+            character_name: "Bruce Wayne" 
+        }
+role6 = Role.new(values)
+role6.save
+
+values = { movie_id: movie2.id, 
+            person_id: people7.id, 
+            character_name: "Joker" 
+        }
+role7 = Role.new(values)
+role7.save
+
+values = { movie_id: movie2.id, 
+            person_id: people8.id, 
+            character_name: "Harvey Dent" 
+        }
+role8 = Role.new(values)
+role8.save
+
+values = { movie_id: movie2.id, 
+            person_id: people3.id, 
+            character_name: "Alfred" 
+        }
+role9 = Role.new(values)
+role9.save
+
+values = { movie_id: movie2.id,
+             person_id: people9.id, 
+             character_name: "Rachel Dawes"
+             }
+role10 = Role.new(values)
+role10.save
+
+values = { movie_id: movie3.id,
+             person_id: people2.id, 
+             character_name: "Bruce Wayne" 
+            }
+role11 = Role.new(values)
+role11.save
+
+values = { movie_id: movie3.id, 
+            person_id: people6.id, 
+            character_name: "Commissioner Gordon" 
+        }
+role12 = Role.new(values)
+role12.save
+
+values = { movie_id: movie3.id, 
+            person_id: people10.id, 
+            character_name: "Bane" 
+        }
+role13 = Role.new(values)
+role13.save
+
+values = { movie_id: movie3.id, 
+            person_id: people11.id, 
+            character_name: "John Blake" 
+        }
+role14 = Role.new(values)
+role14.save
+
+values = { movie_id: movie3.id,
+             person_id: people12.id, 
+             character_name: "Selina Kyle" 
+            }
+role15 = Role.new(values)
+role15.save
 
 # Insert data into your database that reflects the sample data shown above
 # Do not use hard-coded foreign key IDs.
@@ -84,6 +266,12 @@ puts ""
 
 # Query the movies data and loop through the results to display the movies output
 # TODO!
+movies = Movie.all
+
+for movie in movies
+    director = Person.where({id: movie.person_id}) [0]
+    puts "#{movie.title} #{movie.year_released} #{movie.rated} #{director.name}"
+end
 
 # Prints a header for the cast output
 puts ""
@@ -93,3 +281,10 @@ puts ""
 
 # Query the cast data and loop through the results to display the cast output for each movie
 # TODO!
+roles=Role.all
+
+for role in roles
+    movie = Movie.where({id: role.movie_id}) [0]
+    person = Person.where({id: role.person_id}) [0]
+    puts "#{movie.title} #{person.name} #{role.character_name}" 
+end
